@@ -14,4 +14,9 @@ export default defineConfig({
     setupFiles: './tests/setup.js',
     files: './tests/**/*.test.jsx',
   },
+  server: {
+    proxy: {
+      '/api': 'http://localhost:5000',
+    },
+  },
 })
