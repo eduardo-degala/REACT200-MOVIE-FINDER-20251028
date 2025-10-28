@@ -6,33 +6,43 @@ import MovieDetails from './components/MovieDetails';
 import MovieDetailsActor from './components/MovieDetailsActor';
 import SearchBar from './components/SearchBar';
 import MovieNewReleases from './components/MovieNewReleases';
+import AnimatedTitle from './components/AnimatedTitle';
 
 console.log('App.jsx API Key:', 'API_KEY debugger unquote for validation');
 console.log('App.jsx loaded')
 
 function App() {
-  return (
-    <>
-      <h1 className="text-4xl font-bold animation-dimlight box-reflect text-center mt-4">
-      MOVIE FINDER
+   return (
+    <div className="min-h-screen bg-white dark:bg-black text-black dark:text-white">
+
+      <AnimatedTitle />
+
+      {/* Animated Title */}
+      <h1 className="text-4xl md:text-6xl xl:text-8xl font-bold animate-dimlight box-reflect text-center mt-8">
+        
       </h1>
 
-      <SearchBar /> {/* always visible */}
-
-      <div className="bg-white dark:bg-black border-2 border-blue-500 p-4 m-4">
-      <h2>Temporary MovieNewReleases Preview</h2>
-      <MovieNewReleases />
+      {/* Search bar */}
+      <div className="mt-8 px-4">
+        <SearchBar />
       </div>
 
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/movie/:id" element={<MovieDetails />} />
-          <Route path="/actor/:name" element={<MovieDetailsActor />} />
-          <Route path="/movies/new" element={<MovieNewReleases />} />
-        </Routes>
+      {/* Temporary New Releases Preview */}
+      <div className="bg-white dark:bg-black border-2 border-blue-500 p-4 m-4 rounded-lg">
+        <h2 className="text-xl font-semibold mb-2">Temporary MovieNewReleases Preview</h2>
+        <MovieNewReleases />
+      </div>
 
-    </>
+      {/* Routes */}
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/movie/:id" element={<MovieDetails />} />
+        <Route path="/actor/:name" element={<MovieDetailsActor />} />
+        <Route path="/movies/new" element={<MovieNewReleases />} />
+      </Routes>
+    </div>
   );
 }
+
 
 export default App;

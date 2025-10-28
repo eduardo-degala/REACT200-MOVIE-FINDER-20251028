@@ -1,12 +1,16 @@
-//tailwind.confing.js
+//tailwind.config.js
 
 /** @type {import('tailwindcss').Config} */
-module.exports = {
+export default {
   darkMode: 'class',
   content: [
-    "./index.html",         // Make sure this is at the project root
+    "./index.html",
     "./src/**/*.{js,jsx,ts,tsx}",
   ],
+  safelist: [
+  'animate-dimlight',
+  'box-reflect',
+],
   theme: {
     extend: {
       keyframes: {
