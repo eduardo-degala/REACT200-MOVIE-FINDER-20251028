@@ -1,13 +1,62 @@
 <!doctype html>
 <html lang="en">
+
   <head>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Vite + React</title>
+    <title>OMDb Movie Finder</title>
   </head>
+
   <body>
+
+    <div class="w-screen h-screen flex justify-center items-center bg-black dark:bg-white ">
+  <h1 class="relative w-full xl:text-9xl md:text-8xl text-5xl sm:tracking-[17px] tracking-[10px] uppercase text-center leading-[0.70em] outline-none animate-dimlight box-reflect">
+    Coming Soon</h1>
+</div>
+
+
     <div id="root"></div>
+
+    <script src="https://cdn.tailwindcss.com">
+</script>
+
+<script>
+  tailwind.config = {
+    darkMode: 'class',
+    theme: {
+      extend: {
+        keyframes: {
+          dimlight: {
+            '0%, 18%, 20%, 50.1%, 60%, 65.1%, 80%, 90.1%, 92%': {
+              color: '#0e3742',
+              boxShadow: 'none',
+            },
+            '18.1%, 20.1%, 30%, 50%, 60.1%, 65%, 80.1%, 90%, 92.1%, 100%': {
+              color: '#fff',
+              textShadow: '0 0 10px #03bcf4',
+            },
+          },
+        },
+        animation: {
+          dimlight: 'dimlight 5s infinite',
+        },
+      },
+    },
+    plugins: [
+      function({
+        addUtilities
+      }) {
+        addUtilities({
+          '.box-reflect': {
+            '-webkit-box-reflect': 'below 1px linear-gradient(transparent, #0004)',
+          },
+        });
+      },
+    ],
+  }
+</script>
+
     <script type="module" src="/src/main.jsx"></script>
   </body>
 </html>

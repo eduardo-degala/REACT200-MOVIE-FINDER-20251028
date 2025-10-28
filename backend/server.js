@@ -1,31 +1,146 @@
+//backend/server.js
+  //defines Express app (routes, middleware, APIs)
+  //does NOT start server, no .listen() file, located on index.js
 
 import express from 'express';
 import axios from 'axios';
-const app = express();
-
 import dotenv from 'dotenv';
+
 dotenv.config();
 
-const apiKey = process.env.OMDB_API_KEY;
+//EXPRESS APP
+const app = express();
 
+//OMDB API
+const omdbKey = process.env.OMDB_API_KEY;
+const OMDB_URL = 'https://www.omdbapi.com';
+console.log('npm run dev:backend, terminal, server.js, OMDb API Key:', omdbKey ? 'loaded' : 'missing');
+
+//TMDB API
+const tmdbKey = process.env.TMDB_API_KEY;
+const TMDB_URL = 'https://api.themoviedb.org/3';
+console.log('npm run dev:backend, terminal, server.js, TMDb API Key:', tmdbKey ? 'loaded' : 'missing');
+
+//CHECK ROUTE
+app.get('/', (req, res) => {
+  res.send('🎬 Movie API server is running!');
+});
+
+
+//TMDB API
+
+//APP.GET - TMDb Actor
+app.get('/api/actor/:name', async (req, res) => {
+  try {
+    const { name } = req.params;
+    const tmdbUrl = `https://api.themoviedb.org/3/search/person?api_key=${tmdbKey}&query=${encodeURIComponent(name)}`;
+    const response = await axios.get(tmdbUrl);
+
+    res.json(response.data);
+  } catch (error) {
+    console.error('Error fetching actor data:', error.message);
+    res.status(500).json({ error: 'Failed to fetch actor data' });
+  }
+});
+
+//APP.GET - TMDb Filmography / Combined Credits
+app.get('/api/actor/credits/:id', async (req, res) => {
+  try {
+    const { id } = req.params;
+    const response = await axios.get(`${TMDB_URL}/person/${id}/combined_credits?api_key=${tmdbKey}`);
+    res.json(response.data);
+  } catch (error) {
+    console.error('Error fetching actor credits:', error.message);
+    res.status(500).json({ error: 'Failed to fetch actor credits' });
+  }
+});
+
+//APP.GET - TMDb External IDs (IMDb, Twitter, Instagram, etc.)
+app.get('/api/actor/external/:id', async (req, res) => {
+  try {
+    const { id } = req.params;
+    const response = await axios.get(`${TMDB_URL}/person/${id}/external_ids?api_key=${tmdbKey}`);
+    res.json(response.data);
+  } catch (error) {
+    console.error('Error fetching actor external IDs:', error.message);
+    res.status(500).json({ error: 'Failed to fetch actor external IDs' });
+  }
+});
+
+//APP.GET - TMDb Full Movie Details
+app.get('/api/movie/details/:id', async (req, res) => {
+  try {
+    const { id } = req.params;
+    const response = await axios.get(`${TMDB_URL}/movie/${id}?api_key=${tmdbKey}&append_to_response=credits`);
+    res.json(response.data);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Failed to fetch movie details' });
+  }
+});
+
+//APP.GET - TMDb Now Playing (movies)
+app.get('/api/movie/now_playing', async (req, res) => {
+  try {
+    const response = await axios.get(`${TMDB_URL}/movie/now_playing`, {
+      params: { api_key: tmdbKey }
+    });
+    res.json(response.data);
+  } catch (error) {
+    console.error('Error fetching now playing movies:', error.message);
+    res.status(500).json({ error: 'Failed to fetch now playing movies' });
+  }
+});
+
+//APP.GET - TMDb Discover (movies by date range)
+app.get('/api/movies/discover', async (req, res) => {
+  try {
+    const { gte, lte, sort_by = 'primary_release_date.desc' } = req.query;
+    const response = await axios.get(`${TMDB_URL}/discover/movie`, {
+      params: { api_key: tmdbKey, 'primary_release_date.gte': gte, 'primary_release_date.lte': lte, sort_by },
+    });
+    res.json(response.data);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Failed to fetch discovered movies' });
+  }
+});
+
+//OMDB API
+
+//APP.GET - OMDB API ROUTE(S)
 app.get('/api/movie/:id', async (req, res) => {
   const { id } = req.params;
   try {
-    const response = await axios.get(`https://www.omdbapi.com/?apikey=${apiKey}&i=${id}`);
+    const response = await axios.get(`${OMDB_URL}/?apikey=${omdbKey}&i=${id}`);
     res.json(response.data);
   } catch (error) {
-    res.status(500).json({ error: 'Failed to fetch movie data' });
+    res.status(500).json({ error: 'Failed to fetch movie data, server.js' });
   }
 });
 
 app.get('/api/search', async (req, res) => {
   const { query } = req.query;
   try {
-    const response = await axios.get(`https://www.omdbapi.com/?apikey=${apiKey}&s=${query}`);
+    const response = await axios.get(`${OMDB_URL}/?apikey=${omdbKey}&s=${query}`);
     res.json(response.data);
   } catch (error) {
-    res.status(500).json({ error: 'Failed to fetch movies' });
+    res.status(500).json({ error: 'Failed to fetch movies, server.js' });
   }
 });
 
-export default app;
+
+//EXPORT APP
+export default app; //exports app as default for index.js to start server
+
+
+
+
+
+/*
+frontend dev server & hot reload = vite
+
+VITE v6.0.7
+npm run dev
+http://localhost:5173/
+*/
