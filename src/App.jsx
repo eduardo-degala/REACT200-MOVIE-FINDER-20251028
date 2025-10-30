@@ -13,14 +13,25 @@ console.log('App.jsx loaded')
 
 function App() {
    return (
-    <div className="min-h-screen bg-white dark:bg-black text-black dark:text-white">
+    <div className="min-h-screen text-black dark:text-white">
 
-      <AnimatedTitle />
+      {/* 🎥 Background Video */}
+      <video
+        autoPlay
+        loop
+        muted
+        playsInline
+        className="absolute top-0 left-0 w-full h-full object-cover -z-10"
+      >
+        <source src="/images/Background-Blue-1920x1080.mp4" type="video/mp4" />
+        Your browser does not support the video tag.
+      </video>
 
       {/* Animated Title */}
       <h1 className="text-4xl md:text-6xl xl:text-8xl font-bold animate-dimlight box-reflect text-center mt-8">
-        
+        <AnimatedTitle />
       </h1>
+
 
       {/* Search bar */}
       <div className="mt-8 px-4">
@@ -45,4 +56,7 @@ function App() {
 }
 
 
+
 export default App;
+
+// /public/images/Background-Blue-1920x1080.mp4

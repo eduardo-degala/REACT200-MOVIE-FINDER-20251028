@@ -18,9 +18,7 @@ createRoot(document.getElementById('root')).render(
   <StrictMode>
     <BrowserRouter>
       <MovieProvider>
-        <div className="min-h-screen bg-white dark:bg-black">
         <App />
-        </div>
       </MovieProvider>
     </BrowserRouter>
   </StrictMode>

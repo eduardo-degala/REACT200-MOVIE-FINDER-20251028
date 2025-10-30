@@ -40,32 +40,51 @@ console.log('/src/components/Home.jsx loaded')
 
 
 
-return ( 
-  <div> 
-  
-    {loading && <p>Loading...</p>}
+  return (
+    <div className="p-6 xbg-gray-900 min-h-screen">
+      {loading && <p className="text-white mb-4">Loading...</p>}
 
-    <div> 
-      {results.map((movie) => ( 
-        <div key={movie.imdbID}> 
-        <Link to={`/movie/${movie.imdbID}`}> 
-          <h3>{movie.Title}</h3> 
-          <img src={movie.Poster} alt={movie.Title} width="100" /> 
-        </Link> 
-        </div> 
-      ))} 
-    </div> 
-  </div> 
-); 
-} 
+      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6">
+        {results.map((movie) => {
+
+          const posterUrl =
+            movie.Poster !== "N/A"
+              ? movie.Poster
+              : "/images/NoImage-300X445.png"; 
+
+          return (
+          <Link
+            to={`/movie/${movie.imdbID}`}
+            key={movie.imdbID}
+            className="bg-gray-800 rounded-lg overflow-hidden shadow-lg hover:scale-105 transition-transform duration-200"
+          >
+            <div className="w-full">
+              {/* Maintain native poster aspect ratio */}
+              <img
+                src={posterUrl}
+                alt={movie.Title}
+                className="w-full h-auto object-cover"
+              />
+            </div>
+
+            <div className="p-2 text-white text-center">
+              <h3 className="text-sm font-semibold">{movie.Title}</h3>
+              <p className="text-xs text-gray-300">{movie.Year}</p>
+            </div>
+          </Link>
+          );
+
+      })}
+      </div>
+    </div>
+  );
+}
 
 export default Home;
 
 
 
-
-
-/* 
+/*
 Example user flow: 
   User visits / → the Home component loads. 
   User types: Inception 

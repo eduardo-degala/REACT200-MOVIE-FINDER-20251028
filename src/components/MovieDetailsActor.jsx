@@ -61,15 +61,13 @@ function MovieDetailsActor() {
       <h2 className="text-3xl font-bold mb-4">{actor.name}</h2>
 
       {/* Profile image */}
-      {actor.profile_path ? (
-        <img
-          src={`https://image.tmdb.org/t/p/w300${actor.profile_path}`}
-          alt={actor.name}
-          className="rounded-lg mb-4 shadow-md"
-        />
-      ) : (
-        <div className="w-[300px] h-[450px] bg-gray-700 mb-4" />
-      )}
+      <img
+        src={actor.profile_path 
+          ? `https://image.tmdb.org/t/p/w300${actor.profile_path}` 
+          : "/images/NoImage-300X445.png"}
+        alt={actor.name}
+        className="rounded-lg mb-4 shadow-md w-[300px] h-[450px] object-cover"
+      />
 
       {/* Actor bio and details */}
       <div className="mb-4">
