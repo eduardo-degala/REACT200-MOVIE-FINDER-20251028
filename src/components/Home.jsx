@@ -6,6 +6,7 @@
 
 import { useState, useEffect } from 'react';                   //useState, create state variables f/storing data & useEffect, runs die effects (debounced search)
 import { Link, useSearchParams } from 'react-router-dom';      //Link, navigates between routes w/o full page reload, useSearchParams
+import DotsSpinner from "./DotsSpinner"; 
 
 //HOME & SEARCH 
 function Home() {                                 //HOME, defines main React component, SEARCH page f/users on movie finder app
@@ -42,7 +43,11 @@ console.log('/src/components/Home.jsx loaded')
 
   return (
     <div className="p-6 xbg-gray-900 min-h-screen">
-      {loading && <p className="text-white mb-4">Loading...</p>}
+      {loading && (
+        <div className="flex justify-center items-center py-10">
+          <DotsSpinner />
+        </div>
+      )}
 
       <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6">
         {results.map((movie) => {
@@ -56,7 +61,7 @@ console.log('/src/components/Home.jsx loaded')
           <Link
             to={`/movie/${movie.imdbID}`}
             key={movie.imdbID}
-            className="bg-gray-800 rounded-lg overflow-hidden shadow-lg hover:scale-105 transition-transform duration-200"
+            className="mt-9 bg-gray-800 rounded-lg overflow-hidden shadow-lg hover:scale-105 transition-transform duration-200"
           >
             <div className="w-full">
               {/* Maintain native poster aspect ratio */}

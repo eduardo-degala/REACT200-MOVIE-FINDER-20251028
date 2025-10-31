@@ -50,15 +50,45 @@ function SearchBar() {
     navigate('/');
   };
 
+  // Button styles for hover effect
+  const buttonStyle = {
+    background: '#4CAF50',
+    border: 'none',
+    color: 'white',
+    padding: '0.75rem 1.5rem',
+    borderRadius: '4px',
+    cursor: 'pointer',
+    fontWeight: 'bold',
+    transition: 'all 0.2s ease-in-out',
+  };
+
+  const resetButtonStyle = {
+    ...buttonStyle,
+    background: '#f44336',
+  };
+
+
+  
   return (
+    <>
+
+    <style>
+        {`
+            input::placeholder {
+                color: #000;
+                opacity: 1; /* ensures it's solid black, not grayish */
+            }
+        `}
+    </style>
+
     <header
       style={{
         position: 'sticky',
         top: 0,
         zIndex: 1000,
-        background: '#111',
+        background: '#000', //#000 black, fff white BG, 111 gray
         color: '#fff',
-        padding: '0.75rem 1rem',
+        padding: '0.00rem 0rem', //was 0.75rem 1rem
         display: 'flex',
         alignItems: 'center',
         gap: '0.5rem',
@@ -67,7 +97,7 @@ function SearchBar() {
     >
       <input
         type="text"
-        placeholder="Search movies..."
+        placeholder="Search for movies..."
         value={query}
         onChange={(e) => setQuery(e.target.value)} // triggers debounce effect
         onKeyDown={(e) => {
@@ -78,10 +108,11 @@ function SearchBar() {
           padding: '0.5rem',
           borderRadius: '4px',
           border: '1px solid #444',
-          background: '#222',
+          background: '#fff', //was 222222ff
           color: '#fff',
         }}
       />
+
       <button
         onClick={handleSearch}
         style={{
@@ -95,6 +126,7 @@ function SearchBar() {
       >
         Search
       </button>
+
       <button
         onClick={handleReset}
         style={{
@@ -106,10 +138,141 @@ function SearchBar() {
           cursor: 'pointer',
         }}
       >
-        Home
+        Reset
+      </button>
+    </header>
+    </>
+  );
+}
+
+export default SearchBar;
+
+/* REVIEW FOR BUTTON HOVER ENLARGE GLOW ETC...
+
+import { useState, useEffect } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
+
+function SearchBar() {
+  const [query, setQuery] = useState('');
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  // Sync input with URL
+  useEffect(() => {
+    const params = new URLSearchParams(location.search);
+    const q = params.get('q') || '';
+    setQuery(q);
+  }, [location.search]);
+
+  // Debounced navigation
+  useEffect(() => {
+    if (!query.trim()) return;
+
+    const delayDebounce = setTimeout(() => {
+      const params = new URLSearchParams(location.search);
+      const currentQ = params.get('q') || '';
+      if (currentQ !== query.trim()) {
+        navigate(`/?q=${encodeURIComponent(query.trim())}`);
+      }
+    }, 400);
+
+    return () => clearTimeout(delayDebounce);
+  }, [query, navigate, location.search]);
+
+  const handleSearch = () => {
+    if (!query.trim()) return;
+    navigate(`/?q=${encodeURIComponent(query.trim())}`);
+  };
+
+  const handleReset = () => {
+    setQuery('');
+    navigate('/');
+  };
+
+  // Button styles for hover effect
+  const buttonStyle = {
+    background: '#4CAF50',
+    border: 'none',
+    color: 'white',
+    padding: '0.75rem 1.5rem',
+    borderRadius: '4px',
+    cursor: 'pointer',
+    fontWeight: 'bold',
+    transition: 'all 0.2s ease-in-out',
+  };
+
+  const resetButtonStyle = {
+    ...buttonStyle,
+    background: '#f44336',
+  };
+
+  return (
+    <header
+      style={{
+        position: 'sticky',
+        top: 0,
+        zIndex: 1000,
+        background: '#000', // full-width black background
+        color: '#fff',
+        padding: '1rem',
+        display: 'flex',
+        alignItems: 'center',
+        gap: '0.5rem',
+        boxShadow: '0 2px 4px rgba(0,0,0,0.3)',
+      }}
+    >
+      <input
+        type="text"
+        placeholder="Search movies..."
+        value={query}
+        onChange={(e) => setQuery(e.target.value)}
+        onKeyDown={(e) => {
+          if (e.key === 'Enter') handleSearch();
+        }}
+        style={{
+          flex: 1,
+          padding: '0.75rem',
+          borderRadius: '4px',
+          border: '1px solid #444',
+          background: 'orange', // input background orange
+          color: '#000',
+          fontWeight: 'bold',
+        }}
+      />
+
+      <button
+        onClick={handleSearch}
+        style={buttonStyle}
+        onMouseEnter={(e) => {
+          e.target.style.transform = 'scale(1.1)';
+          e.target.style.boxShadow = '0 0 10px #4CAF50';
+        }}
+        onMouseLeave={(e) => {
+          e.target.style.transform = 'scale(1)';
+          e.target.style.boxShadow = 'none';
+        }}
+      >
+        Search
+      </button>
+
+      <button
+        onClick={handleReset}
+        style={resetButtonStyle}
+        onMouseEnter={(e) => {
+          e.target.style.transform = 'scale(1.1)';
+          e.target.style.boxShadow = '0 0 10px #f44336';
+        }}
+        onMouseLeave={(e) => {
+          e.target.style.transform = 'scale(1)';
+          e.target.style.boxShadow = 'none';
+        }}
+      >
+        Reset
       </button>
     </header>
   );
 }
 
 export default SearchBar;
+
+*/

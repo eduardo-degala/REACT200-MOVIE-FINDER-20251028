@@ -8,6 +8,7 @@ import { StrictMode } from 'react' //catches potential problems early developmen
 import App from './App.jsx'
 import { MovieProvider } from './context/MovieContext'; //import provider/context, shared state of movie(s)/search query, lets components in app access/update movie-related data
 import './index.css'
+import '@fortawesome/fontawesome-free/css/all.min.css';
 
 //import ReactDOM from 'react-dom/client';
 //import { createRoot } from 'react-dom/client'

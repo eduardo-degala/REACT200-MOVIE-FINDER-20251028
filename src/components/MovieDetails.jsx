@@ -133,6 +133,10 @@ if (movie.Response === "False") {
   );
 }
 
+
+
+
+
   return (
     <div className="space-y-4 text-white xbg-gray-900 p-6 rounded-lg">
 
@@ -230,7 +234,8 @@ if (movie.Response === "False") {
   );
 }
 
-export default MovieDetails; /* test full flow in browser npm run dev http://localhost:5173 */
+export default MovieDetails; 
+/* test full flow in browser npm run dev http://localhost:5173 */
 
 
 
