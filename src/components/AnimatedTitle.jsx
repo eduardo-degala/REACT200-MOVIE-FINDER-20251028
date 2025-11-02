@@ -1,16 +1,32 @@
 //src/components/AnimatedTitle.jsx
 
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 
 export default function AnimatedTitle({
   text = "MOVIE FINDER",    //allows edit text
   className = "",           //allows style changes
   containerClassName = "",  //allows outer container changes
 }) {
+
+  const navigate = useNavigate();
+
+  const handleClick = () => {
+    window.location.href = '/'; // full reload to home
+  };
+
+
+
   return (
     <div className={`flex justify-center items-start h-auto p-0 mb-0 ${containerClassName}`}>
       <h1
-        className={`text-6xl .md:text-7xl .xl:text-9xl font-bold animate-dimlight box-reflect text-center ${className}`}
+        onClick={handleClick}
+        className={`text-6xl .md:text-7xl .xl:text-9xl font-bold animate-dimlight box-reflect text-center 
+          cursor-pointer select-none
+          transition-all duration-300 
+          hover:text-red-500 hover:scale-110 hover:drop-shadow-[0_0_10px_rgba(255,255,255,1.0)]
+          active:scale-95
+          ${className}`}
       >
         {text}
       </h1>

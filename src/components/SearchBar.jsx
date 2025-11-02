@@ -75,8 +75,8 @@ function SearchBar() {
     <style>
         {`
             input::placeholder {
-                color: #000;
-                opacity: 1; /* ensures it's solid black, not grayish */
+                color: #444;
+                opacity: 0.3; /* ensures it's solid black, not grayish */
             }
         `}
     </style>
@@ -103,43 +103,28 @@ function SearchBar() {
         onKeyDown={(e) => {
           if (e.key === 'Enter') handleSearch(); // instant search on Enter
         }}
-        style={{
-          flex: 1,
-          padding: '0.5rem',
-          borderRadius: '4px',
-          border: '1px solid #444',
-          background: '#fff', //was 222222ff
-          color: '#fff',
-        }}
+        className="flex-1 rounded border border-gray-400
+             bg-white text-black font-bold
+             px-4 py-2 text-sm
+             hover:bg-orange-400
+             transition-colors duration-300
+             focus:outline-none"
       />
 
       <button
-        onClick={handleSearch}
-        style={{
-          background: '#4CAF50',
-          border: 'none',
-          color: 'white',
-          padding: '0.5rem 1rem',
-          borderRadius: '4px',
-          cursor: 'pointer',
-        }}
-      >
-        Search
-      </button>
+  className="bg-green-500 text-white px-4 py-2 rounded font-bold transition-transform duration-200 hover:scale-105 hover:shadow-lg"
+  onClick={handleSearch}
+>
+  Search
+</button>
 
-      <button
-        onClick={handleReset}
-        style={{
-          background: '#f44336',
-          border: 'none',
-          color: 'white',
-          padding: '0.5rem 1rem',
-          borderRadius: '4px',
-          cursor: 'pointer',
-        }}
-      >
-        Reset
-      </button>
+<button
+  className="bg-red-500 text-white px-4 py-2 rounded font-bold transition-transform duration-200 hover:scale-105 hover:shadow-lg"
+  onClick={handleReset}
+>
+  Reset
+</button>
+
     </header>
     </>
   );
