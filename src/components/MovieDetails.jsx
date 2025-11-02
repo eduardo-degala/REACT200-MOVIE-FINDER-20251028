@@ -10,6 +10,7 @@
 import { useEffect, useState, useRef } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import TextToSpeech from "./TextToSpeech";
+import MovieTrailer from "./MovieTrailer";
 
 
 //MOVIE DETAILS (f/selected movie)
@@ -228,6 +229,15 @@ if (movie.Response === "False") {
       {/* BOX OFFICE */}
       <div className="bg-yellow-600 text-black p-6 mt-4 space-y-1">
         <p><strong>Box Office:</strong> {movie.BoxOffice}</p>
+      </div>
+
+      {/* TRAILER, title */}  
+      <div className="p-6 text-white">
+        <h2 className="text-4xl font-bold mb-4">{movie.title}</h2>
+      <p>{movie.overview}</p>
+
+      {/* TRAILER, video */}
+      <MovieTrailer movieId={movie.imdbID} title={movie.Title} />
       </div>
 
     </div>

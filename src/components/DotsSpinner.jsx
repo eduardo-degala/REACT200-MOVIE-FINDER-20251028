@@ -7,12 +7,12 @@ import "../index.css";
 
 export default function DotsSpinner() {
   return (
-    <div className="flex flex-col items-start justify-center space-y-6 p-4">
+    <div className="flex flex-col items-center justify-center space-y-6 p-4">
       {/* Dots animation */}
       <div className="dots-container flex gap-3">
-        <div className="dot bg-purple-500 dark:bg-purple-400"></div>
-        <div className="dot bg-purple-500 dark:bg-purple-400"></div>
-        <div className="dot bg-purple-500 dark:bg-purple-400"></div>
+        <div className="dot w-6 h-6 bg-purple-500 dark:bg-purple-400"></div>
+        <div className="dot w-6 h-6 bg-purple-500 dark:bg-purple-400"></div>
+        <div className="dot w-6 h-6 bg-purple-500 dark:bg-purple-400"></div>
       </div>
 
       {/* Button */}

@@ -25,8 +25,8 @@ body {
 }
 
 .dot {
-  width: 0.75rem;
-  height: 0.75rem;
+  /*width: 0.75rem;
+  height: 0.75rem;*/
   border-radius: 50%;
   animation: bounce 1.4s infinite ease-in-out both;
 }

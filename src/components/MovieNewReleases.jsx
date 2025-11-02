@@ -2,6 +2,8 @@
 
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import DotsSpinner from './DotsSpinner';
+import MovieTrailer from "./MovieTrailer";
 
 
 const today = new Date();
@@ -85,12 +87,11 @@ useEffect(() => {
   fetchMovies();
 }, []);
 
+//LOADING...
+  if (loading) return <DotsSpinner />;
 
 
 
-
-
-  if (loading) return <p>Loading movies...</p>;
 
   // render helper
   const renderMovie = (movie) => (
@@ -109,6 +110,10 @@ useEffect(() => {
     )}
 
       <p><strong>Overview:</strong> {movie.overview}</p>
+
+   {/* 🎬 Add Movie Trailer Component */}
+    <MovieTrailer movieId={movie.imdb_id || movie.imdbID} title={movie.title} />
+
       <p><strong>Genres:</strong> {movie.genres.map((g) => g.name).join(', ')}</p>
       <p><strong>Runtime:</strong> {movie.runtime} min</p>
       <p><strong>Language:</strong> {movie.original_language}</p>

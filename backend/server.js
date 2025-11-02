@@ -106,6 +106,36 @@ app.get('/api/movies/discover', async (req, res) => {
   }
 });
 
+//APP.GET IMDb -  🎥 TMDb Find by IMDb ID — maps IMDb → TMDb internal ID
+app.get("/api/find/:imdbId", async (req, res) => {
+  try {
+    const { imdbId } = req.params;
+    const response = await axios.get(
+      `${TMDB_URL}/find/${imdbId}?api_key=${tmdbKey}&external_source=imdb_id`
+    );
+    res.json(response.data);
+  } catch (error) {
+    console.error("Error mapping IMDb → TMDb:", error.message);
+    res.status(500).json({ error: "Failed to map IMDb ID to TMDb ID" });
+  }
+});
+
+//APP.GET - TMDb Trailers (/api/movie/:id/videos)
+app.get("/api/tmdb/movie/:id/videos", async (req, res) => {
+  try {
+    const { id } = req.params;
+    const response = await fetch(
+      `${TMDB_URL}/movie/${id}/videos?api_key=${tmdbKey}`
+    );
+    const data = await response.json();
+    res.json(data);
+  } catch (error) {
+    console.error("Error fetching TMDB videos:", error.message);
+    res.status(500).json({ error: "Failed to fetch TMDB videos" });
+  }
+});
+
+
 //OMDB API
 
 //APP.GET - OMDB API ROUTE(S)

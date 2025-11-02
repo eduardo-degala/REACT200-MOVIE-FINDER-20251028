@@ -59,7 +59,7 @@ function SearchBarExpand() {
           onKeyDown={(e) => { if (e.key === 'Enter') handleSearch(); }}
           onFocus={() => setFocused(true)}
           placeholder="Search..."
-          className={`flex-1 bg-white text-black outline-none rounded-l-full placeholder-gray-400 px-6 h-24 text-4xl transition-all duration-300
+          className={`flex-1 bg-white text-black text-7xl outline-none rounded-l-full placeholder-gray-400 px-6 h-24 text-4xl transition-all duration-300
             ${focused ? 'opacity-100 w-full' : 'opacity-0 w-0 absolute'}
           `}
         />

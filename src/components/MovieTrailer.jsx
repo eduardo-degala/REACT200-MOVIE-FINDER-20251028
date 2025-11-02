@@ -1,6 +1,105 @@
 //src/components/MovieTrailer.jsx
 
+import { useEffect, useState } from "react";
 
+function MovieTrailer({ movieId, title }) {
+  const [tmdbId, setTmdbId] = useState(null);
+  const [trailerKey, setTrailerKey] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  // Step 1: Convert IMDb ID → TMDB ID
+  useEffect(() => {
+    const fetchTmdbId = async () => {
+      try {
+        setLoading(true);
+        setError(null);
+
+        // call backend proxy for find by IMDb
+        const res = await fetch(`/api/find/${movieId}`);
+        if (!res.ok) throw new Error(`TMDB find failed: ${res.status}`);
+        const data = await res.json();
+
+        // Extract TMDB ID
+        const tmdbMovie = data.movie_results?.[0];
+        if (tmdbMovie?.id) {
+          setTmdbId(tmdbMovie.id);
+        } else {
+          throw new Error("No TMDB match found for IMDb ID");
+        }
+      } catch (err) {
+        console.error("Failed to map IMDb → TMDB:", err);
+        setError(err.message);
+        setLoading(false);
+      }
+    };
+
+    if (movieId) fetchTmdbId();
+  }, [movieId]);
+
+  // Step 2: Fetch trailer videos using TMDB ID
+  useEffect(() => {
+    const fetchTrailer = async () => {
+      if (!tmdbId) return;
+
+      try {
+        setLoading(true);
+        setError(null);
+
+        const res = await fetch(`/api/tmdb/movie/${tmdbId}/videos`);
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        const data = await res.json();
+
+        // Filter for YouTube trailer
+        const trailer =
+          data.results?.find(
+            (v) =>
+              v.type === "Trailer" &&
+              v.site === "YouTube" &&
+              /official/i.test(v.name)
+          ) ||
+          data.results?.find((v) => v.site === "YouTube");
+
+        setTrailerKey(trailer?.key || null);
+      } catch (err) {
+        console.error("Error fetching trailer:", err);
+        setError(err.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchTrailer();
+  }, [tmdbId]);
+
+  // UI
+  if (loading) return <p>Loading trailer...</p>;
+  if (error) return <p>Error: {error}</p>;
+  if (!trailerKey)
+    return (
+      <p>
+        No trailer found for <strong>{title}</strong>.
+      </p>
+    );
+
+  return (
+    <div className="my-6">
+      <h3 className="text-2xl font-bold mb-4 text-white">
+        🎥 Trailer: {title}
+      </h3>
+      <div className="aspect-w-16 aspect-h-9">
+        <iframe
+          src={`https://www.youtube.com/embed/${trailerKey}`}
+          title={`${title} Trailer`}
+          allowFullScreen
+          className="w-full h-96 rounded-lg shadow-lg"
+        />
+      </div>
+    </div>
+  );
+}
+
+export default MovieTrailer;
 
 /*
 How to use the TMDB API for trailers
