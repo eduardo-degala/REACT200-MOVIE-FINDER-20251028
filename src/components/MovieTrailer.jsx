@@ -84,10 +84,10 @@ function MovieTrailer({ movieId, title }) {
 
   return (
     <div className="my-6">
-      <h3 className="text-2xl font-bold mb-4 text-white">
-        🎥 Trailer: {title}
+      <h3 className="text-xl font-bold mb-4 text-red-600 text-left">
+        Trailer: {title}
       </h3>
-      <div className="aspect-w-16 aspect-h-9">
+      <div className="aspect-w-16 aspect-h-9 rounded-md border border-5 border-red-600">
         <iframe
           src={`https://www.youtube.com/embed/${trailerKey}`}
           title={`${title} Trailer`}

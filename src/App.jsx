@@ -26,30 +26,12 @@ function App() {
 </div>
     
 
-
-      {/* 🎥 Background Video */}
-      <video
-        autoPlay
-        loop
-        muted
-        playsInline
-        className="fixed top-0 left-0 w-screen h-screen object-cover -z-10"
-      >
-         <source 
-          src="/images/Background-1920x1080.mp4" 
-          type="video/mp4" 
-        />
-        Your browser does not support the video tag.
-      </video>
-
-
-
       {/* Routes */}
       <Routes>
         <Route path="/*" element={<AnimatedSplitScreen />} />
       </Routes>
 
-  
+
     </>
   );
 }
@@ -58,5 +40,4 @@ function App() {
 
 export default App;
 
-// /public/images/Background-1920x1080.mp4
-
+//END

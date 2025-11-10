@@ -11,7 +11,17 @@ import { useEffect, useState, useRef } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import TextToSpeech from "./TextToSpeech";
 import MovieTrailer from "./MovieTrailer";
+import ScrollToTop from "./ScrollToTop";
 
+//SOUNDS, default onclick for buttons
+const clickSound = new Audio('/sounds/bubble.mp3');
+
+//playClickSound();
+export const playClickSound = () => {
+  const audio = new Audio('/sounds/bubble.mp3');
+  audio.currentTime = 0; // start from beginning
+  audio.play().catch((err) => console.log('Audio play failed:', err));
+};
 
 //MOVIE DETAILS (f/selected movie)
 function MovieDetails() {
@@ -69,6 +79,7 @@ function MovieDetails() {
     fetchActorImages();
   }, [movie]);
 
+  /*
   // AUTO TEXT-TO-SPEECH: say title + plot
   useEffect(() => {
   const speakMovieDetails = async () => {
@@ -78,21 +89,21 @@ function MovieDetails() {
     hasSpoken.current = true; // mark as spoken
 
     try {
-      // Speak title first
+      //speaks title first
       const titleAudio = await window.puter.ai.txt2speech(movie.Title, {
         voice: "Joanna",
-        engine: "generative", // use "neural" or "standard" if you want faster playback
+        engine: "standard", // use "neural" or "standard" if you want faster playback, "generative" for quality
         language: "en-US",
       });
       await titleAudio.play();
 
-      // Wait briefly between title and plot
+      //wait briefly between title and plot
       await new Promise((resolve) => setTimeout(resolve, 1000));
 
-      // Speak plot next
+      //speak plot next
       const plotAudio = await window.puter.ai.txt2speech(movie.Plot, {
         voice: "Joanna",
-        engine: "generative",
+        engine: "standard",
         language: "en-US",
       });
       await plotAudio.play();
@@ -105,19 +116,18 @@ function MovieDetails() {
     speakMovieDetails();
   }
 }, [movie]);
+*/
 
 
 
 //CHECK
 console.log("/src/components/MovieDetails loaded");
 
-//NOTES //MovieDetails.jsx - link actors 
-// //movie.Actors are comma-separated string aka "Tom Hanks, Robin Wright, Gary Sinise" 
-// //change f/MovieDetailsActor.jsx to <Link> routes to /actor/:name 
+//NOTES MovieDetails.jsx - link actors 
+        //movie.Actors are comma-separated string aka "Tom Hanks, Robin Wright, Gary Sinise" 
+        //change f/MovieDetailsActor.jsx to <Link> routes to /actor/:name 
 
-
- // ✅ MAIN RENDER
-
+ //LOADING MOVIE DETAILS...
  if (!movie) {
   return (
     <div className="text-white p-6">
@@ -126,6 +136,7 @@ console.log("/src/components/MovieDetails loaded");
   );
 }
 
+//MOVIE NOT FOUND.
 if (movie.Response === "False") {
   return (
     <div className="text-white p-6">
@@ -138,15 +149,19 @@ if (movie.Response === "False") {
 
 
 
+
+//RETURN
   return (
-    <div className="space-y-4 text-white xbg-gray-900 p-6 rounded-lg">
+    <div  className="border-3 border-yellow-500 pb-x mb-20 xbg-red-900 p-20 rounded-md shadow-lg"
+      style={{backgroundImage: `url('/images/BG-RED-4Kx4K.jpg')`,}}>
 
       {/* TITLE */}
-      <h2 className="text-3xl font-bold mb-2 p-0">{movie.Title}</h2>
-      <h3 className="text-base font-bold mb-4">{movie.Year} - {movie.Rated} - {movie.Runtime}</h3>
+      <h2 className="text-yellow-300 text-left text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-cinzel font-bold mb-2 p-0">{movie.Title}</h2>
+      <h3 className="text-yellow-300 text-left text-base sm:text-lg md:text-xl lg:text-1xl font-serif font-bold mb-4">{movie.Year} - {movie.Rated} - {movie.Runtime}</h3>
+
 
       {/* MAIN SECTION */}
-      <div className="flex flex-col md:flex-row md:flex-nowrap md:space-x-0 md:items-start">
+      <div className="flex flex-row flex-wrap gap-6 items-start mt-6 mb-6">
 
         {/* POSTER */}
         <div className="flex-shrink-0">
@@ -155,67 +170,54 @@ if (movie.Response === "False") {
               ? movie.Poster
               : "/images/NoImage-300X445.png"}
             alt={movie.Title}
-            className="w-[300px] h-[445px] object-cover rounded-lg shadow-lg mb-4 md:mb-0"
+            className="w-[300px] h-auto object-cover rounded-lg shadow-lg"
           />
         </div>
-        </div>
-
+        
         {/* DETAILS */}
-        <div className="bg-yellow-600 text-black p-6 mt-4 space-y-1">
-          <div>
-            <p><strong>Released:</strong> {movie.Released}</p>
-            <p><strong>Runtime:</strong> {movie.Runtime}</p>
-            <p><strong>Genre:</strong> {movie.Genre}</p>
-            <p><strong>Director:</strong> {movie.Director}</p>
-            <p><strong>Writer:</strong> {movie.Writer}</p>
-          </div>
+        <div className="text-white flex-1 min-w-[300px] space-y-1 max-w-2xl">
+          <p><strong>Title:</strong> {movie.Title}</p>
+          <p><strong>Released:</strong> {movie.Released}</p>
+          <p><strong>Runtime:</strong> {movie.Runtime}</p>
+          <p><strong>Genre:</strong> {movie.Genre}</p>
+          <p><strong>Director:</strong> {movie.Director}</p>
+          <p><strong>Writer:</strong> {movie.Writer}</p>
         </div>
 
-          {/* ACTOR BUTTONS */}
-          <div className="bg-red-600 text-white p-6 mt-4 space-y-1">
-            <p className="font-semibold mb-2">Actors:</p>
-            <div className="flex flex-wrap gap-4">
-              {actorImages.map((actor) => (
-                <div
-                  key={actor.name}
-                  className="flex flex-col items-center w-24"
-                >
-                  {actor.img ? (
-                    <img
-                      src={actor.img}
-                      alt={actor.name}
-                      className="w-16 h-16 object-cover rounded-full border-2 border-blue-400 shadow-md mb-1"
-                    />
-                  ) : (
-                    <img
-                      src="/images/NoImage-64X64.png"
-                      alt="No actor"
-                      className="w-16 h-16 object-cover rounded-full border-2 border-blue-400 shadow-md mb-1"
-                    />
-                  )}
-
-                  <button
-                    onClick={() =>
-                      navigate(`/actor/${encodeURIComponent(actor.name)}`)
-                    }
-                    className="bg-blue-600 hover:bg-blue-700 text-white text-sm px-2 py-1 rounded text-center leading-tight min-h-[4.0rem] w-full break-words"
-                  >
-                    {actor.name}
-                  </button>
-                </div>
-              ))}
-            
-          
-        </div>
       </div>
 
       {/* PLOT */}
-      <div className="bg-yellow-600 text-black p-6 mt-4 space-y-1">
+      <div className="text-white mt-6 space-y-1 max-w-2xl">
         <p><strong>Plot:</strong> {movie.Plot}</p>
       </div>
 
+      {/* ACTOR BUTTONS */}
+      <div className="text-white mt-6 mb-0">
+        <p className="font-semibold mb-4">Actors:</p>
+        <div className="flex flex-wrap gap-4">
+          {actorImages.map((actor) => (
+            <button
+              key={actor.name}
+              onClick={() => {
+                playClickSound(); 
+                navigate(`/actor/${encodeURIComponent(actor.name)}`)}}
+              className="flex flex-col items-center w-24 group hover:scale-120 transition-all duration-300 ease-out"
+            >
+              <img
+                src={actor.img || "/images/NoImage-64X64.png"}
+                alt={actor.name}
+                className="w-16 h-16 object-cover rounded-full border-2 border-white shadow-md mb-1 transition-all duration-300 ease-out"
+              />
+              <span className="bg-gradient-to-b from-red-100 from-0% via-red-600 via-40% to-black to-80% group-hover:from-white group-hover:via-red-500 group-hover:to-gray-950 text-white text-sm px-3 py-2 rounded-full text-center leading-tight min-h-[4.5rem] w-full break-words transition-all duration-300 ease-out shadow-[inset_0_6px_10px_rgba(255,255,255,0.7),inset_0_-6px_12px_rgba(0,0,0,0.8),0_4px_10px_rgba(0,0,0,0.4)] flex items-center justify-center border-2 border-red-900/70">
+                {actor.name}
+              </span>
+            </button>
+          ))}
+        </div>
+      </div>
+
       {/* ADDITIONAL DETAILS */}
-      <div className="bg-red-600 text-white p-6 mt-4 space-y-1">
+      <div className="text-white mt-6 space-y-1 max-w-2xl">
         <p><strong>Rated:</strong> {movie.Rated}</p>
         <p><strong>Language:</strong> {movie.Language}</p>
         <p><strong>Country:</strong> {movie.Country}</p>
@@ -227,27 +229,33 @@ if (movie.Response === "False") {
       </div>
 
       {/* BOX OFFICE */}
-      <div className="bg-yellow-600 text-black p-6 mt-4 space-y-1">
+      <div className="bg-yellow-600 text-black p-6 mt-6 space-y-1 rounded-lg max-w-2xl"
+      style={{backgroundImage: `url('/images/BG-YELLOW.jpg')`,}}>
         <p><strong>Box Office:</strong> {movie.BoxOffice}</p>
       </div>
 
       {/* TRAILER, title */}  
-      <div className="p-6 text-white">
+      <div className="text-white mt-6 max-w-2xl">
         <h2 className="text-4xl font-bold mb-4">{movie.title}</h2>
-      <p>{movie.overview}</p>
+        <p>{movie.overview}</p>
 
-      {/* TRAILER, video */}
-      <MovieTrailer movieId={movie.imdbID} title={movie.Title} />
+        {/* TRAILER, video */}
+        <MovieTrailer movieId={movie.imdbID} title={movie.Title} />
       </div>
 
+        {/* Scroll To Top */}
+        <ScrollToTop />
     </div>
   );
 }
 
-export default MovieDetails; 
+export default MovieDetails;
+
+
+
+
+
 /* test full flow in browser npm run dev http://localhost:5173 */
-
-
 
 /* 
 test full flow in browser

@@ -50,6 +50,7 @@ function SearchBar() {
     navigate('/');
   };
 
+  /*
   // Button styles for hover effect
   const buttonStyle = {
     background: '#4CAF50',
@@ -66,7 +67,7 @@ function SearchBar() {
     ...buttonStyle,
     background: '#f44336',
   };
-
+*/
 
   
   return (

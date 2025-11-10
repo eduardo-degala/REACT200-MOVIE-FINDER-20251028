@@ -1,0 +1,27 @@
+/* src/components/ScrollingCarousel.css */
+
+@keyframes scroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-scroll {
+  animation: scroll 20s linear infinite;
+  display: flex;
+  width: max-content;
+}
+
+/* Optional: smoother scaling */
+.carousel-item img {
+  transition: transform 0.4s ease, box-shadow 0.4s ease;
+}
+
+.carousel-item:hover img {
+  transform: scale(1.1);
+  box-shadow: 0 0 20px rgba(255, 0, 0, 0.6);
+}
+

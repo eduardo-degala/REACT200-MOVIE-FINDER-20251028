@@ -15,6 +15,7 @@ function SearchBarExpand() {
   const navigate = useNavigate();
   const location = useLocation();
   const containerRef = useRef(null);
+  const inputRef = useRef(null);
 
   // Sync input with URL
   useEffect(() => {
@@ -42,17 +43,32 @@ function SearchBarExpand() {
     navigate(`/?q=${encodeURIComponent(query.trim())}`);
   };
 
+  //HOVER, allow text entry if hover expand is activated (no longer reqd to click in input box)
+  const handleMouseEnter = () => {
+      setFocused(true);
+      inputRef.current?.focus(); //focus input on hover
+    };
+
+    const handleMouseLeave = () => {
+      setFocused(false);
+    };
+
+
+
+
+
   return (
     <header className="sticky top-0 z-50 flex justify-center p-4 xbg-gray-900 shadow-md">
       <div
         className={`relative flex items-center bg-white transition-all duration-300 overflow-hidden
           ${focused ? 'w-full max-w-3xl rounded-full px-4 py-2' : 'w-24 h-24 rounded-full'}
         `}
-        onMouseEnter={() => setFocused(true)}
-        onMouseLeave={() => setFocused(false)}
+        onMouseEnter={handleMouseEnter}
+        onMouseLeave={handleMouseLeave}
       >
         {/* Input - only visible when focused */}
         <input
+          ref={inputRef}
           type="text"
           value={query}
           onChange={(e) => setQuery(e.target.value)}

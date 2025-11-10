@@ -7,6 +7,16 @@
 import { useState, useEffect } from 'react';                   //useState, create state variables f/storing data & useEffect, runs die effects (debounced search)
 import { Link, useSearchParams } from 'react-router-dom';      //Link, navigates between routes w/o full page reload, useSearchParams
 import DotsSpinner from "./DotsSpinner"; 
+import ScrollToTop from "./ScrollToTop";
+
+//SOUNDS, default onclick for buttons
+const clickSound = new Audio('/sounds/bubble.mp3');
+clickSound.preload = 'auto'; // Ensure it is loaded ahead
+
+export const playClickSound = () => {
+  const sound = new Audio('/sounds/bubble.mp3');
+  sound.play().catch((err) => console.log('Audio play failed:', err));
+};
 
 //HOME & SEARCH 
 function Home() {                                 //HOME, defines main React component, SEARCH page f/users on movie finder app
@@ -40,15 +50,18 @@ console.log('/src/components/Home.jsx loaded')
 
 
 
-
+//RETURN
   return (
     <div className="p-6 xbg-gray-900 min-h-screen">
+
+      {/* DotsSpinner */}
       {loading && (
         <div className="flex justify-center items-center py-10">
           <DotsSpinner />
         </div>
       )}
 
+      {/* Movie grid */}
       <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6">
         {results.map((movie) => {
 
@@ -57,30 +70,52 @@ console.log('/src/components/Home.jsx loaded')
               ? movie.Poster
               : "/images/NoImage-300X445.png"; 
 
-          return (
-          <Link
-            to={`/movie/${movie.imdbID}`}
-            key={movie.imdbID}
-            className="mt-9 bg-gray-800 rounded-lg overflow-hidden shadow-lg hover:scale-105 transition-transform duration-200"
-          >
-            <div className="w-full">
-              {/* Maintain native poster aspect ratio */}
-              <img
-                src={posterUrl}
-                alt={movie.Title}
-                className="w-full h-auto object-cover"
-              />
-            </div>
 
-            <div className="p-2 text-white text-center">
-              <h3 className="text-sm font-semibold">{movie.Title}</h3>
-              <p className="text-xs text-gray-300">{movie.Year}</p>
-            </div>
+
+//RETURN
+  return (
+    <Link
+      to={`/movie/${movie.imdbID}`}
+      key={movie.imdbID}
+      onClick={() => playClickSound()} 
+      className="relative flex flex-row xbg-red-600 rounded-lg overflow-hidden 
+      shadow-lg hover:scale-[1.02] transition-transform duration-300 border border-white
+      hover:border-8 hover:border-white transition-all duration-300"
+    >
+          {/* 🎥 Video background */}
+          <video
+            src="/images/BG-RED-LIVE.mp4"
+            autoPlay
+            loop
+            muted
+            playsInline
+            className="absolute top-0 left-0 w-full h-full object-cover z-0"
+          />
+
+      {/* Poster on the left */}
+      <div className="relative z-10 flex-shrink-0 w-32 sm:w-40 md:w-48 lg:w-56">
+        <img
+          src={posterUrl}
+          alt={movie.Title}
+          className="w-full h-full object-cover"
+        />
+      </div>
+
+      {/* Text on the right */}
+      <div className="relative z-10 flex flex-col justify-center p-4 text-white">
+        <h3 className="font-cinzel text-lg md:text-xl font-bold mb-1">{movie.Title}</h3>
+        <p className="text-black text-sm">{movie.Year}</p>
+        <p className="text-black text-xs mt-2 line-clamp-2">
+          {movie.Type?.toUpperCase() || 'MOVIE'}
+        </p>
+      </div>
           </Link>
           );
 
       })}
       </div>
+      {/* Scroll To Top */}
+      <ScrollToTop />
     </div>
   );
 }

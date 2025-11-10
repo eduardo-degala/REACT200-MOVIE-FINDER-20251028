@@ -7,23 +7,34 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>OMDb Movie Finder</title>
 
-    <link
+<link
   rel="stylesheet"
   href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
-  integrity="sha512-Fo3rlrZj/k7ujTnH2N2b+X9YySx7q+GZb5Xk6Gp4l7zQfMsn8jX8FvXrJ4LhZ6iZ9TTrMZmJ4pOdkDqv5lkF8g=="
-  crossOrigin="anonymous"
-  referrerPolicy="no-referrer"
+  crossorigin="anonymous"
+  referrerpolicy="no-referrer"
 />
 
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Luckiest+Guy&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Rancho&effect=3d">
+
+<style>
+  .font-cinzel {
+    font-family: 'Cinzel', serif;
+    candy: ['Luckiest Guy', 'cursive'],
+  }
+</style>
+
+
   </head>
+
+
 
   <body>
 
 <script src="https://js.puter.com/v2/"></script>
 
-
-
-<!--tailwind does not run wiht PostCSS plugin/etc (animations/etc)-->
+<!--tailwind does not run with PostCSS plugin/etc (animations/etc)-->
 <script src="https://cdn.tailwindcss.com"></script> 
 
 
@@ -32,6 +43,10 @@
     darkMode: 'class',
     theme: {
       extend: {
+        fontFamily: {
+          candy: ['Luckiest Guy', 'cursive'],
+          cinzel: ['Cinzel', 'serif'],
+        },
         keyframes: {
           dimlight: {
             '0%, 18%, 20%, 50.1%, 60%, 65.1%, 80%, 90.1%, 92%': {
@@ -43,12 +58,94 @@
               textShadow: '0 0 10px #03bcf4',
             },
           },
+        
+          dimlightGray: {
+          '0%, 20%, 50%, 70%, 100%': {
+            color: '#000', // 222dark gray text, 000black FF0000red FF5555lightred FFAAAAsoftred
+            textShadow: '0 0 12px #555',
+          },
+          '25%, 55%, 85%': {
+            color: '#FF0000', // aaalighter gray text
+            textShadow: '0 0 12px #999',//999medium gray shadow
+          },
         },
+         wave: {
+            '0%, 40%, 100%': { transform: 'scaleY(0.4)' },
+            '20%': { transform: 'scaleY(1)' },
+          },
+
+        'fade-in': {
+            '0%': { opacity: 0 },
+            '100%': { opacity: 1 },
+          },
+          'fade-out': {
+            '0%': { opacity: 1 },
+            '100%': { opacity: 0 },
+          },
+          'fade-in-down': {
+            '0%': { opacity: 0, transform: 'translate3d(0, -100%, 0)' },
+            '100%': { opacity: 1, transform: 'translate3d(0, 0, 0)' },
+          },
+          'fade-in-up': {
+            '0%': { opacity: 0, transform: 'translate3d(0, 100%, 0)' },
+            '100%': { opacity: 1, transform: 'translate3d(0, 0, 0)' },
+          },
+          'fade-in-left': {
+            '0%': { opacity: 0, transform: 'translate3d(-100%, 0, 0)' },
+            '100%': { opacity: 1, transform: 'translate3d(0, 0, 0)' },
+          },
+          'fade-in-right': {
+            '0%': { opacity: 0, transform: 'translate3d(100%, 0, 0)' },
+            '100%': { opacity: 1, transform: 'translate3d(0, 0, 0)' },
+          },
+          'fade-out-down': {
+            '0%': { opacity: 1 },
+            '100%': { opacity: 0, transform: 'translate3d(0, 100%, 0)' },
+          },
+          'fade-out-up': {
+            '0%': { opacity: 1 },
+            '100%': { opacity: 0, transform: 'translate3d(0, -100%, 0)' },
+          },
+          'fade-out-left': {
+            '0%': { opacity: 1, transform: 'translate3d(0, 0, 0)' },
+            '100%': { opacity: 0, transform: 'translate3d(-100%, 0, 0)' },
+          },
+          'fade-out-right': {
+            '0%': { opacity: 1, transform: 'translate3d(0, 0, 0)' },
+            '100%': { opacity: 0, transform: 'translate3d(100%, 0, 0)' },
+          },
+          'fade-out-top-left': {  /* Added missing fade-out-top-left animation */
+            '0%': { opacity: 1, transform: 'translate3d(0, 0, 0)' },
+            '100%': { opacity: 0, transform: 'translate3d(-100%, -100%, 0)' },
+          },
+          'fade-out-top-right': {  /* Added missing fade-out-top-right animation */
+            '0%': { opacity: 1, transform: 'translate3d(0, 0, 0)' },
+            '100%': { opacity: 0, transform: 'translate3d(100%, -100%, 0)' },
+          },
+        },
+
+
+
         animation: {
           dimlight: 'dimlight 5s infinite',
+          dimlightGray: 'dimlightGray 5s infinite',
+          wave: 'wave 1.2s ease-in-out infinite',
+          fadein: 'fade-in 3s ease-in-out infinite',
+          fadeout: 'fade-out 3s ease-out infinite',
+          fadeindown: 'fade-in-down 3s ease-in infinite',
+          fadeinup: 'fade-in-up 3s ease-in-out infinite',
+          fadeinleft: 'fade-in-left 3s ease-in-out infinite',
+          fadeinright: 'fade-in-right 3s ease-in-out infinite',
+          fadeoutdown: 'fade-out-down 3s ease-in-out infinite',
+          fadeoutup: 'fade-out-up 3s ease-in-out infinite',
+          fadeoutleft: 'fade-out-left 3s ease-in-out infinite',
+          fadeoutright: 'fade-out-right 3s ease-in-out infinite',
+          fadeouttopleft: 'fade-out-top-left 3s ease-in-out infinite',  /* Added animation for fade-out-top-left */
+          fadeouttopright: 'fade-out-top-right 3s ease-in-out infinite',  /* Added animation for fade-out-top-right */
         },
       },
     },
+
     plugins: [
       function({
         addUtilities
@@ -63,8 +160,8 @@
   }
 </script>
 
-
     <div id="root"></div>
     <script type="module" src="/src/main.jsx"></script>
+
   </body>
 </html>
