@@ -19,7 +19,7 @@ const clickSound = new Audio('/sounds/bubble.mp3');
 //playClickSound();
 export const playClickSound = () => {
   const audio = new Audio('/sounds/bubble.mp3');
-  audio.currentTime = 0; // start from beginning
+  audio.currentTime = 0; //start from beginning 0
   audio.play().catch((err) => console.log('Audio play failed:', err));
 };
 
@@ -80,19 +80,25 @@ function MovieDetails() {
   }, [movie]);
 
   /*
-  // AUTO TEXT-TO-SPEECH: say title + plot
+  //puter ai txt2speech:  https://docs.puter.com/AI/txt2speech/
+    //import TextToSpeech from "./TextToSpeech"; 
+    //html/script:  puter.js 
+    //TextToSpeech.jsx (src/components.TextToSpeech.jsx)
+    //commented out due to cap on calls to API
+
+  //AUTO TEXT-TO-SPEECH: say title + plot
   useEffect(() => {
   const speakMovieDetails = async () => {
     if (!movie || !window.puter?.ai?.txt2speech) return;
-    if (hasSpoken.current) return; // ✅ already spoken — skip
+    if (hasSpoken.current) return; //already spoken — skip
 
-    hasSpoken.current = true; // mark as spoken
+    hasSpoken.current = true; //mark as spoken
 
     try {
       //speaks title first
       const titleAudio = await window.puter.ai.txt2speech(movie.Title, {
         voice: "Joanna",
-        engine: "standard", // use "neural" or "standard" if you want faster playback, "generative" for quality
+        engine: "standard", //use "neural" or "standard" if you want faster playback, "generative" for quality
         language: "en-US",
       });
       await titleAudio.play();
@@ -150,7 +156,7 @@ if (movie.Response === "False") {
 
 
 
-//RETURN
+//RETURN (MOVIE DETAILS)
   return (
     <div  className="border-3 border-yellow-500 pb-x mb-20 xbg-red-900 p-20 rounded-md shadow-lg"
       style={{backgroundImage: `url('/images/BG-RED-4Kx4K.jpg')`,}}>
@@ -256,6 +262,8 @@ export default MovieDetails;
 
 
 /* test full flow in browser npm run dev http://localhost:5173 */
+
+
 
 /* 
 test full flow in browser

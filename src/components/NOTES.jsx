@@ -1,3 +1,6 @@
+//NOTES.jsx is used to cut/paste multiple in-work items, no other appliation
+
+
 
   const renderMovie = (movie) => (
     <div key={movie.id} style={{ marginBottom: '2rem', borderBottom: '1px solid #ccc', paddingBottom: '1rem' }}>

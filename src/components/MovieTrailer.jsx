@@ -8,6 +8,9 @@ function MovieTrailer({ movieId, title }) {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
+  // #1, get the IMDB id to get the TMDB id, f/trailer key
+  // #2, iframe/embed youtube URL w/trailer key, display trailer
+
   // Step 1: Convert IMDb ID → TMDB ID
   useEffect(() => {
     const fetchTmdbId = async () => {

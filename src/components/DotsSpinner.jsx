@@ -8,7 +8,7 @@ import "../index.css";
 export default function DotsSpinner() {
   return (
     <div className="flex flex-col items-center justify-center space-y-6 p-4">
-      {/* Dots animation */}
+      {/* Dots Animation */}
       <div className="dots-container flex gap-3">
         <div className="dot w-6 h-6 bg-purple-500 dark:bg-purple-400"></div>
         <div className="dot w-6 h-6 bg-purple-500 dark:bg-purple-400"></div>
@@ -22,3 +22,12 @@ export default function DotsSpinner() {
     </div>
   );
 }
+
+
+/*
+https://tailwindcss.com/docs/animation
+
+https://www.tailwindcss-animated.com
+
+https://prismic.io/blog/tailwind-animations
+*/

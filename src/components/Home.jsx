@@ -1,5 +1,5 @@
 //src/components/Home.jsx
-  //main page of movie finder app 
+  //main page of movie finder app f/logic & splitscreen orgs the active panes/animations
   //listens for changes to ?q= and performs the actual API fetch + results display
   //handles data fetching and rendering results whenever the URL query changes
   //reads ?q= using useSearchParams(), calls backend API, displays loading and results
@@ -72,7 +72,7 @@ console.log('/src/components/Home.jsx loaded')
 
 
 
-//RETURN
+//RETURN (SEARCH RESULTS, lists movie results, cards are links to MovieDetails.jsx)
   return (
     <Link
       to={`/movie/${movie.imdbID}`}
@@ -82,7 +82,7 @@ console.log('/src/components/Home.jsx loaded')
       shadow-lg hover:scale-[1.02] transition-transform duration-300 border border-white
       hover:border-8 hover:border-white transition-all duration-300"
     >
-          {/* 🎥 Video background */}
+          {/* BG CARD, Video Background */}
           <video
             src="/images/BG-RED-LIVE.mp4"
             autoPlay
@@ -92,7 +92,7 @@ console.log('/src/components/Home.jsx loaded')
             className="absolute top-0 left-0 w-full h-full object-cover z-0"
           />
 
-      {/* Poster on the left */}
+      {/* POSTER, on the left */}
       <div className="relative z-10 flex-shrink-0 w-32 sm:w-40 md:w-48 lg:w-56">
         <img
           src={posterUrl}
@@ -101,7 +101,7 @@ console.log('/src/components/Home.jsx loaded')
         />
       </div>
 
-      {/* Text on the right */}
+      {/* TEXT, on the right */}
       <div className="relative z-10 flex flex-col justify-center p-4 text-white">
         <h3 className="font-cinzel text-lg md:text-xl font-bold mb-1">{movie.Title}</h3>
         <p className="text-black text-sm">{movie.Year}</p>

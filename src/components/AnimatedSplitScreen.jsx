@@ -1,15 +1,19 @@
 //src/components/AnimatedSplitScreen.jsx
 
+//splitscreen, has left and right panes, expands on click, has audio, animated title, scrolling carousel, and routes for movie details and new releases
+
 import { useState, useEffect, useRef } from "react";
 import { useLocation, Routes, Route } from "react-router-dom";
 import AnimatedTitle from './AnimatedTitle';
 import SearchBarExpand from "./SearchBarExpand";    //left pane, reqd f/Home.jsx
 import Home from "./Home";                          //left pane, black
-import MovieDetails from "./MovieDetails";
-import MovieDetailsActor from "./MovieDetailsActor";
-import MovieNewReleases from "./MovieNewReleases";  //right pane, white
+import MovieDetails from "./MovieDetails";          //OMDB
+import MovieDetailsActor from "./MovieDetailsActor";//TMDB
+import MovieNewReleases from "./MovieNewReleases";  //TMDB
 import AnimatedScrollCarousel from "./AnimatedScrollCarousel";
 import WaveSpinner from "./WaveSpinner"; 
+import MovieMinimal from "./MovieMinimal";
+import { Link } from 'react-router-dom';
 
 //PANE, onclick - wistful
 const wistfulSound = new Audio("/sounds/wistful.mp3");
@@ -20,6 +24,7 @@ export default function AnimatedSplitScreen() {
   const [rightWidth, setRightWidth] = useState("50%");
   const [activePane, setActivePane] = useState(null); //track which pane is expanded, 'left', 'right', or null
   const location = useLocation();
+  const [showIntroText, setShowIntroText] = useState(true);
 
   //AUTOEXPAND, SEARCHBAR TOPBAR
   useEffect(() => {
@@ -31,20 +36,24 @@ export default function AnimatedSplitScreen() {
       setLeftWidth("100%");
       setRightWidth("0%");
       setActivePane("left");
+      setShowIntroText(false); //hide intro text on search
     } else if (location.pathname.startsWith('/movie/') || location.pathname.startsWith('/actor/')) {
       setLeftWidth("100%");
       setRightWidth("0%");
       setActivePane("left");
+      setShowIntroText(false); //hide intro text on details pages
+    } else {
+      setShowIntroText(true);  //show intro text only on initial page
     }
   }, [location.search, location.pathname]);
 
   //EXPAND LEFT, settings
   const expandLeft = () => {
-    wistfulSound.currentTime = 0; // rewind if already playing
+    wistfulSound.currentTime = 0; //rewind if already playing
     wistfulSound.play().catch(err => console.log("Sound play error:", err));
 
-    setLeftWidth("100%");
-    setRightWidth("0%");
+    setLeftWidth("100%");  //active pane
+    setRightWidth("0%");   //inactive pane
     setActivePane("left"); //Home.jsx (search movies function)
   };
 
@@ -53,8 +62,8 @@ export default function AnimatedSplitScreen() {
     wistfulSound.currentTime = 0; // rewind if already playing
     wistfulSound.play().catch(err => console.log("Sound play error:", err));
 
-    setLeftWidth("0%");
-    setRightWidth("100%");
+    setLeftWidth("0%");     //inactive pane
+    setRightWidth("100%");  //active pane
     setActivePane("right"); //MovieNewReleases.jsx (static fetch address, loads content)
   };
 
@@ -108,27 +117,33 @@ export default function AnimatedSplitScreen() {
       />
       )}
 
-      {/* GREEN TITLE, fade effect */}
+      {/* GREEN TITLE (3d effect), links to minimal page (original page) */}
       {!activePane && (
       <div className="absolute top-0 left-0 w-full h-full flex items-start justify-center pointer-events-none z-20">
         <div className="flex space-x-2 mt-40">
+
+        <Link to="/minimal"
+        className="pointer-events-auto">
+
           <div className="flex items-center justify-center leading-none 
           text-green-500 text-9xl text-center font-candy font-bold font-effect-3d 
-          xborder border-20 border-green-500 px-10 py-8 
-          bg-transparent xshadow-md rounded-full xanimate-fadeinleft">
+          xborder border-3d border-20 border-green-500 px-10 py-8 
+          bg-transparent xshadow-md rounded-full xanimate-fadeinleft
+          hover:border-orange-500 hover:border-10 hover:scale-105">
           MOVIE FINDER</div>
+          </Link>
         </div>
       </div>
       )}
 
-            {/* sub TITLE, fade effect */}
+      {/* GREEN subTITLE (text info), fade effect */}
       {!activePane && (
       <div className="absolute top-0 left-0 w-full h-full flex items-start justify-center pointer-events-none z-20">
         <div className="flex space-x-2 mt-80">
           <div class="flex items-center justify-center 
-          text-green-500 text-2xl font-candy font-bold Xfont-effect-3d
-          bg-transparent xshadow-md rounded-lg animate-fadeout">
-          Explore</div>
+          text-black text-2xl font-candy font-normal xfont-effect-3d
+          bg-transparent xshadow-md rounded-xl animate-bounce [animation-duration:3s]">
+          Click For Minimal</div>
         </div>
       </div>
       )}
@@ -137,11 +152,11 @@ export default function AnimatedSplitScreen() {
       {!activePane && (
       <div className="absolute top-0 left-0 w-full h-full group">
         <p className="absolute top-[35%] left-1/2 transform -translate-x-1/2
-        text-center text-red-600 text-8xl font-cinzelx font-bold z-25 cursor-pointer animate-pulse">
+        text-center text-red-600 text-8xl font-cinzelx font-bold z-25 cursor-pointer xanimate-pulse">
         Enter</p>
 
-      {/* RED, wave spinner appears on hover */}
-      <div className="absolute top-[20%] left-1/2 transform -translate-x-1/2 
+      {/* RED, WaveSpinner wave bars appears on hover */}
+      <div className="absolute top-[25%] left-1/2 transform -translate-x-1/2 
       opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-50">
         <WaveSpinner />
       </div>
@@ -198,6 +213,45 @@ export default function AnimatedSplitScreen() {
                 <Route path="/movie/:id" element={<MovieDetails />} />
                 <Route path="/actor/:name" element={<MovieDetailsActor />} />
               </Routes>
+
+      {showIntroText && (
+      <div className="absolute top-[50%] left-1/2 transform -translate-x-1/2 z-50">
+        <div className="flex items-center justify-center 
+          text-green-500 text-8xl font-candy font-normal xfont-effect-3d
+          bg-transparent xshadow-md rounded-xl animate-fadeoutup [animation-duration:3s]">
+          SEARCH
+        </div>
+
+        <div className="flex items-center justify-center 
+          text-green-500 text-7xl font-candy font-normal xfont-effect-3d
+          bg-transparent xshadow-md rounded-xl animate-fadeinleft [animation-duration:3s]">
+          AND
+        </div>
+
+        <div className="flex items-center justify-center 
+          text-green-500 text-9xl font-candy font-normal xfont-effect-3d
+          bg-transparent xshadow-md rounded-xl animate-fadeout [animation-duration:3s]">
+          FIND
+        </div>
+
+        <div className="flex items-center justify-center 
+          text-green-500 text-7xl font-candy font-normal xfont-effect-3d
+          bg-transparent xshadow-md rounded-xl animate-fadeinright [animation-duration:3s]">
+          YOUR
+        </div>
+
+        <div className="flex items-center justify-center 
+          text-green-500 text-9xl font-candy font-normal xfont-effect-3d
+          bg-transparent xshadow-md rounded-xl animate-fadeoutdown [animation-duration:3s]">
+          MOVIE
+        </div>
+
+
+
+
+      </div>
+    )}
+
             </>
           ) : (
           <div className="text-black flex items-center justify-center h-screen text-2xl">
@@ -248,6 +302,7 @@ export default function AnimatedSplitScreen() {
 
 }
 //keep this curly, end of function
+
 
 
 

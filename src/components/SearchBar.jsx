@@ -69,7 +69,7 @@ function SearchBar() {
   };
 */
 
-  
+  //RETURN (SEARCH FUNCTION & TOP BAR DISPLAY)
   return (
     <>
 

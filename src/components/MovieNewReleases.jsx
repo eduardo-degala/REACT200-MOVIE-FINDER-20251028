@@ -175,7 +175,7 @@ useEffect(() => {
   );
 
 
-//RETURN
+//RETURN (Recent Releases / Now Playing / Upcoming Movies)
   return (
     <div className="p-4 space-y-4 text-white">
       <audio ref={bassdropRef} src="/sounds/bassdrop.mp3" preload="auto" />
@@ -183,7 +183,7 @@ useEffect(() => {
       {renderCard('Now Playing (In Theaters Now)', '/images/2-NOW-PLAYING.png', 'nowPlaying', nowPlaying)}
       {renderCard('Upcoming Movies (Next 6 Months)', '/images/3-UPCOMING-MOVIES.png', 'upcoming', upcoming)}
 
-{/* DEJA VU VIDEO CARD */}
+{/* DEJA VU VIDEO CARD, video embed/wake up song for presentation */}
     <div className="relative group bg-black rounded-lg shadow-lg p-6 mb-8 flex flex-col items-center text-center gap-6 border border-gray-800 w-full max-w-3xl lg:max-w-[50%] mx-auto">
       
       <h2 className="text-xl md:text-2xl lg:text-3xl font-bold text-red-500 mb-2 border-1 border-red-500 animate-pulse">

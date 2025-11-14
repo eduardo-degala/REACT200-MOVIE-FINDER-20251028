@@ -8,7 +8,7 @@ import ScrollToTop from "./ScrollToTop";
 
 //SOUNDS, default onclick for buttons
 const clickSound = new Audio('/sounds/bubble.mp3');
-clickSound.preload = 'auto'; // Ensure it is loaded ahead
+clickSound.preload = 'auto'; //preload, to ensure it is loaded ahead
 
 //playClickSound();
 export const playClickSound = () => {
@@ -66,6 +66,7 @@ function MovieDetailsActor() {
 
 
 
+  //RETURN (ACTOR DETAILS)
   return (
     <div className="border-3 border-yellow-500 pb-x mb-20 p-20 rounded-md shadow-lg"
       style={{backgroundImage: `url('/images/BG-RED-4Kx4K.jpg')`}}>
@@ -113,7 +114,7 @@ function MovieDetailsActor() {
         </div>
       )}
 
-      {/* EXTERNAL LINKS - Candy Crush Style Buttons */}
+      {/* EXTERNAL LINKS - Candy/Gradient Style Buttons */}
       {external && (
         <div className="text-white mt-6 mb-0">
           <p className="font-semibold mb-4">External Links:</p>
@@ -170,7 +171,7 @@ function MovieDetailsActor() {
         </div>
       )}
 
-      {/* KNOWN FOR */}
+      {/* KNOWN FOR, hover red border w/note */}
       {actor.known_for && actor.known_for.length > 0 && (
         <div className="text-white mt-8">
           <p className="font-semibold mb-4 text-xl">Known For:</p>
@@ -210,7 +211,7 @@ function MovieDetailsActor() {
         </div>
       )}
 
-      {/* FULL FILMOGRAPHY */}
+      {/* FULL FILMOGRAPHY, hover white border */}
       {credits.length > 0 && (
         <div className="text-white mt-8">
           <p className="font-semibold mb-4 text-xl">Filmography:</p>
@@ -242,10 +243,10 @@ function MovieDetailsActor() {
         </div>
       )}
 
-      {/* END NAME */}
+      {/* END NAME, extra for contrast yellow BG (prior placeholder detail) */}
       <div className="bg-yellow-600 text-black text-3xl font-cinzel font-bold p-6 mt-8 space-y-1 rounded-lg max-w-2xl"
       style={{backgroundImage: `url('/images/BG-YELLOW.jpg')`,}}>
-        <p><strong>Filmography End:</strong> {actor.name}</p>
+        <p><strong>End Filmography:</strong> {actor.name}</p>
       </div>
 
 

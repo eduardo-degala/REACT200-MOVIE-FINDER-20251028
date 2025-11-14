@@ -2,11 +2,11 @@
   //defines Express app (routes, middleware, APIs)
   //does NOT start server, no .listen() file, located on index.js
 
-import express from 'express';
-import axios from 'axios';
-import dotenv from 'dotenv';
+import express from 'express';  //imports Express framework/library f/HTTP requests/responses 
+import axios from 'axios';      //imports Axios library, makes requests to other APIs/servers, fetch/send data
+import dotenv from 'dotenv';    //imports dotenv library, loads env var f/.env
 
-dotenv.config();
+dotenv.config();                //activates dotenv, process.env f/APIs
 
 //EXPRESS APP
 const app = express();
@@ -21,15 +21,18 @@ const tmdbKey = process.env.TMDB_API_KEY;
 const TMDB_URL = 'https://api.themoviedb.org/3';
 console.log('npm run dev:backend, terminal, server.js, TMDb API Key:', tmdbKey ? 'loaded' : 'missing');
 
+//IMDB API
+//fysa, no requirements for key or use, info pulled f/OMDB
+
 //CHECK ROUTE
 app.get('/', (req, res) => {
-  res.send('🎬 Movie API server is running!');
+  res.send('Movie API server is running!');
 });
 
 
-//TMDB API
+//TMDB API (get actor details)
 
-//APP.GET - TMDb Actor
+//APP.GET - TMDb Actor Name
 app.get('/api/actor/:name', async (req, res) => {
   try {
     const { name } = req.params;
@@ -106,7 +109,7 @@ app.get('/api/movies/discover', async (req, res) => {
   }
 });
 
-//APP.GET IMDb -  🎥 TMDb Find by IMDb ID — maps IMDb → TMDb internal ID
+//APP.GET IMDb -  TMDb Find by IMDb ID — maps IMDb → TMDb internal ID
 app.get("/api/find/:imdbId", async (req, res) => {
   try {
     const { imdbId } = req.params;
@@ -120,7 +123,7 @@ app.get("/api/find/:imdbId", async (req, res) => {
   }
 });
 
-//APP.GET - TMDb Trailers (/api/movie/:id/videos)
+//APP.GET - TMDb Trailers (/api/movie/:id/videos) to youtube (search OMDB f/IMDB id to return TMDB movie-id f/youtube key to URL)
 app.get("/api/tmdb/movie/:id/videos", async (req, res) => {
   try {
     const { id } = req.params;
@@ -136,7 +139,7 @@ app.get("/api/tmdb/movie/:id/videos", async (req, res) => {
 });
 
 
-//OMDB API
+//OMDB API (movie details)
 
 //APP.GET - OMDB API ROUTE(S)
 app.get('/api/movie/:id', async (req, res) => {

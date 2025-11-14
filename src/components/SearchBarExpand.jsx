@@ -17,14 +17,14 @@ function SearchBarExpand() {
   const containerRef = useRef(null);
   const inputRef = useRef(null);
 
-  // Sync input with URL
+  //sync input with URL (search query parameter) /search?q=
   useEffect(() => {
     const params = new URLSearchParams(location.search);
     const q = params.get('q') || '';
     setQuery(q);
   }, [location.search]);
 
-  // Debounced navigation
+  //debounced navigation (pseudo autocomplete)
   useEffect(() => {
     if (!query.trim()) return;
 
@@ -43,7 +43,10 @@ function SearchBarExpand() {
     navigate(`/?q=${encodeURIComponent(query.trim())}`);
   };
 
-  //HOVER, allow text entry if hover expand is activated (no longer reqd to click in input box)
+  //HOVER & TEXT INPUT
+    //allow text entry if hover expand is activated
+    //no longer reqd to click in input box
+    //hover and start typing, fills in chars
   const handleMouseEnter = () => {
       setFocused(true);
       inputRef.current?.focus(); //focus input on hover
@@ -56,7 +59,7 @@ function SearchBarExpand() {
 
 
 
-
+//RETURN (HOVER & EXPANDING SEARCH BAR) aka visual component to generic search bar (SearchBar.jsx vs SearchBarExpand.jsx  )
   return (
     <header className="sticky top-0 z-50 flex justify-center p-4 xbg-gray-900 shadow-md">
       <div

@@ -1,7 +1,7 @@
 //src/components/AnimatedTitle.jsx
 
-import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import React from 'react';                      //imports React, create components w/JSX
+import { useNavigate } from 'react-router-dom'; //imports hook f/React, allows component navigation to another route/page in app
 
 export default function AnimatedTitle({
   text = "MOVIE FINDER",    //allows edit text
@@ -12,11 +12,11 @@ export default function AnimatedTitle({
   const navigate = useNavigate();
 
   const handleClick = () => {
-    window.location.href = '/'; // full reload to home
+    window.location.href = '/'; //full reload to home
   };
 
 
-
+//RETURN
   return (
     <div className={`flex justify-center items-start h-auto p-0 mb-0 ${containerClassName}`}>
       <h1
