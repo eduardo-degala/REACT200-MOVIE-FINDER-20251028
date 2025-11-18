@@ -196,7 +196,19 @@ export default function AnimatedSplitScreen() {
         
         
         {/* LEFT PANE, black background */} 
-        <div className="min-h-screen p-4 pt-32">
+        <div className="relative min-h-screen p-4 pt-32 overflow-hidden">
+
+{/* MATRIX BACKGROUND VIDEO — ONLY when intro text is shown */}
+{activePane === "left" && showIntroText && (
+  <video
+    className="absolute left-0 w-full h-[calc(100%-200px)] top-1/3 object-fill opacity-40 z-0 pointer-events-none p-20"
+    src="/images/BG-MATRIX.mp4"
+    autoPlay
+    muted
+    loop
+  />
+)}
+
           {/* UPON EXPANSION, Conditional Rendering */}
           {activePane === "left" ? (
             <>
@@ -213,6 +225,8 @@ export default function AnimatedSplitScreen() {
                 <Route path="/movie/:id" element={<MovieDetails />} />
                 <Route path="/actor/:name" element={<MovieDetailsActor />} />
               </Routes>
+
+
 
       {showIntroText && (
       <div className="absolute top-[50%] left-1/2 transform -translate-x-1/2 z-50">
